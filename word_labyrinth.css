@@ -1,0 +1,419 @@
+body {
+    font-family: 'Courier New', monospace;
+    background-color: #2c3e50;
+    color: #ecf0f1;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+}
+
+header {
+    margin: 10px 0;
+    text-align: center;
+}
+
+h1 {
+    font-size: 2rem;
+    margin-bottom: 0;
+    color: #e74c3c;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+.subtitle {
+    font-size: 1rem;
+    margin-top: 5px;
+    color: #bdc3c7;
+}
+
+#game-container {
+    background-color: #34495e;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    width: 90%;
+    max-width: 1000px;
+    height: 70vh;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: row;
+    position: relative;
+}
+
+.game-left-panel {
+    flex: 1;
+    padding-right: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.game-right-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#game-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 10px;
+    margin-bottom: 15px;
+    position: relative;
+}
+
+/* Make letters bigger and bolder */
+.cell {
+    aspect-ratio: 1;
+    background-color: #2c3e50;
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 42px; /* Increased from 32px */
+    font-weight: 900; /* Increased from bold */
+    cursor: pointer;
+    transition: all 0.2s ease;
+    user-select: none;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+}
+
+.cell:hover {
+    background-color: #3498db;
+    transform: scale(1.05);
+}
+
+.cell.selected {
+    background-color: #3498db;
+    color: white;
+    transform: scale(1.05);
+}
+
+.cell.correct {
+    background-color: #2ecc71;
+    color: white;
+}
+
+.cell.incorrect {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.cell.used {
+    background-color: #7f8c8d;
+    opacity: 0.7;
+}
+
+#word-display {
+    height: 50px;
+    background-color: #2c3e50;
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 24px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+    letter-spacing: 2px;
+}
+
+#controls {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #2980b9;
+}
+
+button:disabled {
+    background-color: #95a5a6;
+    cursor: not-allowed;
+}
+
+#submit-word {
+    background-color: #2ecc71;
+}
+
+#submit-word:hover {
+    background-color: #27ae60;
+}
+
+#clear-word {
+    background-color: #e74c3c;
+}
+
+#clear-word:hover {
+    background-color: #c0392b;
+}
+
+.icon-button {
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 22px;
+    background-color: #f39c12;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 100;
+    cursor: pointer;
+}
+
+.icon-button:hover {
+    background-color: #d35400;
+    transform: scale(1.05);
+}
+
+#pause-icon, #resume-icon {
+    line-height: 1;
+    font-weight: bold;
+}
+
+#stats {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.stat {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 10px;
+    background-color: #2c3e50;
+    border-radius: 5px;
+}
+
+.stat-value {
+    font-size: 20px;
+    font-weight: bold;
+    color: #3498db;
+}
+
+#words-found {
+    background-color: #2c3e50;
+    border-radius: 8px;
+    padding: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    min-height: 40px;
+    max-height: 30vh;
+    overflow-y: auto;
+    margin-top: 10px;
+}
+
+.found-word {
+    background-color: #3498db;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 14px;
+}
+
+#message {
+    height: 20px;
+    color: #f39c12;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    margin: 10px 0;
+}
+
+#tutorial-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+}
+
+#tutorial {
+    background-color: #34495e;
+    border-radius: 10px;
+    padding: 30px;
+    width: 80%;
+    max-width: 600px;
+    text-align: center;
+}
+
+#tutorial h2 {
+    color: #e74c3c;
+    margin-top: 0;
+}
+
+#tutorial p {
+    margin: 15px 0;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+#start-game {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 12px 30px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+}
+
+#start-game:hover {
+    background-color: #c0392b;
+}
+
+/* Time bonus animation */
+@keyframes timeBonus {
+    0% { transform: scale(1); opacity: 1; color: rgb(46, 204, 113); text-shadow: 0 0 10px #2ecc71; }
+    25% { transform: scale(2.0); opacity: 0.9; }
+    75% { transform: scale(1.8) translateY(-30px); opacity: 0.7; }
+    100% { transform: scale(1.5) translateY(-50px); opacity: 0; }
+}
+
+.time-bonus {
+    position: absolute;
+    font-weight: 900; /* Bolder */
+    font-size: 28px; /* Bigger */
+    text-shadow: 0 0 15px rgba(46, 204, 113, 0.8);
+    z-index: 10;
+    animation: timeBonus 1.8s ease-out forwards;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #2ecc71;
+}
+
+/* Letter shuffle animation */
+@keyframes shuffle {
+    0% { transform: translateY(0) rotate(0); opacity: 1; }
+    25% { transform: translateY(-10px) rotate(-5deg); }
+    50% { transform: translateY(5px) rotate(5deg); }
+    75% { transform: translateY(-5px) rotate(-3deg); }
+    100% { transform: translateY(0) rotate(0); opacity: 1; }
+}
+
+.shuffling {
+    animation: shuffle 0.5s ease-in-out;
+}
+
+/* Word tiles flying away animation */
+@keyframes flyAway {
+    0% { transform: translateY(0) rotate(0); opacity: 1; }
+    100% { transform: translateY(-50px) rotate(10deg); opacity: 0; }
+}
+
+.fly-away {
+    animation: flyAway 0.5s ease-out forwards;
+}
+
+/* Timer display position for time bonus animations */
+#timer {
+    font-size: 28px;
+    font-weight: bold;
+    color: #f39c12;
+    margin-bottom: 10px;
+    position: relative;
+}
+
+#timer {
+    font-size: 28px;
+    font-weight: bold;
+    color: #f39c12;
+    margin-bottom: 10px;
+    position: relative;
+}
+
+/* Word selection trail styles */
+.selection-trail {
+    position: absolute;
+    background-color: rgba(46, 204, 113, 0.4); /* green */
+    border-radius: 50px;
+    pointer-events: none; /* So it doesn't interfere with clicks */
+    z-index: 10;
+    transition: opacity 0.5s ease-out;
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+.trail-fade-out {
+    animation: fadeOut 0.6s forwards;
+}
+
+@media (max-width: 768px) {
+    #game-container {
+        flex-direction: column;
+        height: auto;
+        max-height: 85vh;
+        overflow-y: auto;
+    }
+
+    .game-left-panel, .game-right-panel {
+        width: 100%;
+    }
+
+    .game-left-panel {
+        order: 2;
+        padding-right: 0;
+        padding-top: 15px;
+    }
+
+    .game-right-panel {
+        order: 1;
+    }
+
+    #stats {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .stat {
+        flex: 1;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    #words-found {
+        max-height: 20vh;
+    }
+}
+
+@media (max-width: 480px) {
+    .cell {
+        font-size: 32px; /* Increased from 24px */
+        font-weight: 900;
+    }
+}
